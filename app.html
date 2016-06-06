@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Simple application</title>
+	<script type="text/javascript" src="student.js"></script>
+	<script type="text/javascript" src="Student.Service.js"></script>
+
+</head>
+<body>
+
+<form>
+	<div>First Name:
+	<input type="text" id="fname" name="first_name"/>
+	</div>
+	<div>Last Name:
+	<input type="text" id="lname" name="last_name"/>
+	</div>
+	<div>Email      :
+	<input type="email" id="email" name="email"/>
+	</div>
+	</br>
+	<button type="submit" id="save-student">Save</button>
+	</div>
+	<a href="javascript:void(0)" id="show-student">Show Students </a>
+	<div id = "student-list"></div>
+</form>
+<script type="text/javascript">
+	function getOBJ(key){
+		return document.getElementById(key);
+	};
+	var studentService = new StudentService();
+
+	window.onload= function(){
+		var showlink = getOBJ("show-student");
+		var showStudentList = getOBJ("student-list");
+		var fname = getOBJ("fname");
+		var lname = getOBJ("lname");
+		var email = getOBJ("email");
+		var saveButton = getOBJ("save-student");
+
+		saveButton.onclick = function(){
+			var student = new Student();
+			student.firstName =fname.value;
+			student.lastName =lname.value;
+			student.email =email.value;
+			studentService.add(student);
+			alert("Data-Saved");
+			return false;
+	};
+	showlink.onclick = function(){
+		var content = "";
+		studentList = studentService.getAll();
+		for (var i = 0; i < studentList.length; i++) {
+			var student = studentList[i];
+			content+= "<li>"+ student.firstName+" "+student.lastName+"</li>"
+		}
+		showStudentList.innerHTML = content;
+	};	
+	};	
+</script>
+</body>
+</html>
